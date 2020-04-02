@@ -10,7 +10,7 @@ pool:
   vmImage: 'ubuntu-latest'
 
 stages:
-- stage: Build Stage
+- stage: Build
   jobs:
   - job:
     steps:
@@ -24,7 +24,7 @@ stages:
         npm run build
       displayName: 'npm install and build'
 
-- stage: Deploy Stage
+- stage: Deploy
   jobs:
   - job:
     steps:
