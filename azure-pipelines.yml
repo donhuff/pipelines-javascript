@@ -21,6 +21,7 @@ steps:
   displayName: 'npm install and build'
 
 - script: |
+    ls -al
     zip app.zip server.js node_modules
   displayName: 'zip it'
 
