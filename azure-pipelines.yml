@@ -9,31 +9,27 @@ trigger:
 pool:
   vmImage: 'ubuntu-latest'
 
-stages:
-- stage: Build
-  jobs:
-  - job:
-    steps:
-    - task: NodeTool@0
-      inputs:
-        versionSpec: '10.x'
-      displayName: 'Install Node.js'
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '10.x'
+  displayName: 'Install Node.js'
 
-    - script: |
-        npm install
-        npm run build
-      displayName: 'npm install and build'
+- script: |
+    npm install
+    npm run build
+  displayName: 'npm install and build'
 
-- stage: Deploy
-  jobs:
-  - job:
-    steps:
-    - task: AzureRmWebAppDeployment@4
-      inputs:
-        ConnectionType: 'AzureRM'
-        azureSubscription: 'SAIM Sandbox(a7058496-eca3-4bcc-a887-dd39c6d842c1)'
-        appType: 'webAppLinux'
-        WebAppName: 'pipelines-javascript'
-        packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
-        RuntimeStack: 'NODE|10.14'
-        StartupCommand: 'node server.js'
+- script: |
+    zip app.zip server.js node_modules
+  displayName: 'zip it'
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'SAIM Sandbox(a7058496-eca3-4bcc-a887-dd39c6d842c1)'
+    appType: 'webAppLinux'
+    WebAppName: 'pipelines-javascript'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/**/*.zip'
+    RuntimeStack: 'NODE|10.14'
+    StartupCommand: 'node server.js'
