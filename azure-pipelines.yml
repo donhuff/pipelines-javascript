@@ -21,8 +21,9 @@ steps:
   displayName: 'npm install and build'
 
 - script: |
-    ls -al
+    ls -al node_modules
     zip app.zip server.js node_modules
+    unzip -l app.zip
   displayName: 'zip it'
 
 - task: AzureRmWebAppDeployment@4
